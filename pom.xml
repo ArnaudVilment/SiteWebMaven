@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Informations du projet -->
+  <groupId>com.avilment</groupId>
+  <artifactId>av_site_web_maven</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <!-- Informations générales -->
+  <name>av_site_web_maven</name>
+  <url>http://maven.apache.org</url>
+
+  <organization>
+      <name>Arnaud Vilment</name>
+      <url>https://exemple.org</url>
+  </organization>
+
+  <!-- Properties -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Pour Voir les méthodes Deprecated et les warnings -->
+    <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+    <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+  </properties>
+
+  <dependencies>
+    
+  </dependencies>
+  
+  <!-- Modules -->
+  <modules>
+  	<module>batch</module>
+  	<module>business</module>
+  	<module>consumer</module>
+  	<module>model</module>
+    <module>webapp</module>
+  </modules>
+  
+    <!-- Gestion des dépendances -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Modules -->
+            <dependency>
+                <groupId>com.avilment</groupId>
+                <artifactId>batch</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.avilment</groupId>
+                <artifactId>webapp</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.avilment</groupId>
+                <artifactId>business</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.avilment</groupId>
+                <artifactId>consumer</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.avilment</groupId>
+                <artifactId>model</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- Bibliothèques tierces -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+	        <dependency>
+	            <groupId>javax.servlet</groupId>
+	            <artifactId>servlet-api</artifactId>
+	            <version>2.5</version>
+	            <scope>provided</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>javax.validation</groupId>
+	            <artifactId>validation-api</artifactId>
+	            <version>1.1.0.Final</version>
+	            <scope>compile</scope>
+	        </dependency>
+	        <dependency>
+	            <groupId>org.apache.bval</groupId>
+	            <artifactId>bval-jsr</artifactId>
+	            <version>1.1.2</version>
+	            <scope>runtime</scope>
+	        </dependency>
+            
+        </dependencies>
+    </dependencyManagement>
+    
+    <!-- Profils -->
+   <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/conf-dev</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/conf-test</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/conf-prod</directory>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+  
+    <build>
+        <!-- ===== Gestion des plugins ===== -->
+        <pluginManagement>
+        	<plugins>
+	        	<plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-enforcer-plugin</artifactId>
+	                <version>1.4.1</version>
+	                <executions>
+	                    <execution>
+	                        <!-- je choisis un nom unique pour définir cette exécution -->
+	                        <id>enforce-profile-target</id>
+	                        <!-- je branche l'exécution à la phase "validate" -->
+	                        <phase>validate</phase>
+	                        <!-- cette exécution lancera le goal "enforce" -->
+	                        <goals>
+	                            <goal>enforce</goal>
+	                        </goals>
+	                        <!-- La configuration du plugin propre à cette exécution -->
+	                        <configuration>
+	                            <rules>
+	                                <requireActiveProfile>
+	                                    <profiles>target-dev,target-test,target-prod</profiles>
+	                                    <all>false</all>
+	                                </requireActiveProfile>
+	                            </rules>
+	                        </configuration>
+	                    </execution>
+	                </executions>
+	            </plugin>
+            
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+  
+</project>
