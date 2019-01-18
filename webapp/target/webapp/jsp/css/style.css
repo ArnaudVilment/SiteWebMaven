@@ -1,0 +1,13 @@
+footer {
+    position: absolute;
+    botom: 0;
+    background-color: aliceblue;
+}
+div {
+    position: absolute;
+    botom: 0;
+    background-color: aliceblue;
+}
+.page {
+	background-color: #00ff40;
+}

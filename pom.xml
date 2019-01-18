@@ -129,6 +129,25 @@
                 </resources>
             </build>
         </profile>
+        <profile>
+           <id>with-sources</id>
+           <build>
+	       	<plugins>
+	    		<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+			   </plugin>
+	 		</plugins>
+  		   </build>
+       </profile>
     </profiles>
   
     <build>
@@ -153,7 +172,7 @@
 	                        <configuration>
 	                            <rules>
 	                                <requireActiveProfile>
-	                                    <profiles>target-dev,target-test,target-prod</profiles>
+	                                    <profiles>dev,test,prod,with-sources</profiles>
 	                                    <all>false</all>
 	                                </requireActiveProfile>
 	                            </rules>
